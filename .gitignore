@@ -28,3 +28,10 @@ coverage
 *.sw?
 
 *.tsbuildinfo
+
+.env
+.env.local
+
+.vscode/
+
+.github/
