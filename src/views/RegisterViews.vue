@@ -28,41 +28,42 @@
       />
       <button
         type="submit"
-        class="bg-[color:var(--primary)] text-white font-bold py-2 px-4 rounded-lg shadow hover:bg-green-600 transition"
+        class="bg-[color:var(--primary)] text-white font-bold py-2 px-4 rounded-lg shadow hover:bg-green-600 transition flex items-center justify-center gap-2"
+        :disabled="isLoading"
       >
-        S'inscrire
+        <Spinner :loading="isLoading" />
+        <span v-if="!isLoading">S'inscrire</span>
+        <span v-else>Inscription...</span>
       </button>
       <p v-if="error" class="text-red-500 mt-2">{{ error }}</p>
+      <p v-if="successMessage" class="text-green-600 mt-2">{{ successMessage }}</p>
     </form>
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
+import { useRouter } from 'vue-router'
+import { useUserStore } from '@/stores/user'
+import Spinner from '@/components/SpinnerComponent.vue'
 
 const name = ref('')
 const email = ref('')
 const password = ref('')
-const error = ref('')
-
-const backendUrl = import.meta.env.VITE_BACKEND_URL
+const isLoading = ref(false)
+const successMessage = ref('')
+const userStore = useUserStore()
+const error = computed(() => userStore.getError)
+const router = useRouter()
 
 async function handleRegister() {
-  error.value = ''
-  try {
-    const res = await fetch(`${backendUrl}/auth/register`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name: name.value, email: email.value, password: password.value }),
-    })
-    if (!res.ok) {
-      const data = await res.json()
-      error.value = data.message || 'Erreur lors de l’inscription'
-    } else {
-      // Redirige ou affiche un message de succès
-    }
-  } catch (e) {
-    error.value = 'Erreur réseau'
+  isLoading.value = true
+  successMessage.value = ''
+  await userStore.register({ email: email.value, password: password.value, name: name.value })
+  isLoading.value = false
+  if (!userStore.getError) {
+    successMessage.value = 'Inscription réussie ! Vous allez être redirigé.'
+    setTimeout(() => router.push('/'), 1200)
   }
 }
 </script>
