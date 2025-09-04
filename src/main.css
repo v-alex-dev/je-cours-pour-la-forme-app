@@ -3,10 +3,14 @@
 :root {
   --primary: #7ac943; /* vert du logo */
   --secondary: #1a355e; /* bleu du logo */
+  --accent: #f5f7fa; /* gris clair pour fonds */
+  --card-bg: #ffffffcc; /* blanc translucide pour glassmorphism */
+  --text-main: #1a355e;
+  --text-light: #7ac943;
 }
 
 body {
-  @apply bg-[color:var(--secondary)] text-white;
+  @apply min-h-screen bg-[color:var(--secondary)] text-white;
 }
 
 .register-container {
@@ -18,24 +22,60 @@ body {
 }
 
 .register-form {
-  @apply flex flex-col gap-4 bg-white p-8 rounded-lg shadow-lg w-full max-w-md;
+  @apply flex flex-col gap-4 bg-[color:var(--card-bg)] p-8 rounded-xl shadow-lg w-full max-w-md border border-[color:var(--accent)];
 }
 
 .input {
-  @apply border rounded px-4 py-2 text-[color:var(--secondary)] focus:outline-none focus:ring-2 focus:ring-[color:var(--primary)];
+  @apply border rounded px-4 py-2 text-[color:var(--text-main)] bg-[color:var(--accent)] focus:outline-none focus:ring-2 focus:ring-[color:var(--primary)];
   border-color: var(--primary);
 }
 
 .btn-primary {
-  @apply font-bold py-2 px-4 rounded transition;
+  @apply font-bold py-2 px-4 rounded-xl transition shadow;
   background-color: var(--primary);
   color: #fff;
+  border: none;
 }
 
 .btn-primary:hover {
   background-color: #5ea82f;
+  box-shadow: 0 2px 8px rgba(26, 53, 94, 0.12);
 }
 
 .error {
   @apply text-red-500 mt-2;
+}
+
+/* Cartes et glassmorphism */
+.card-glass {
+  background: var(--card-bg);
+  backdrop-filter: blur(12px);
+  border-radius: 1rem;
+  box-shadow: 0 2px 16px rgba(26, 53, 94, 0.08);
+  border: 1px solid var(--accent);
+}
+
+/* Accent sur titres */
+.title-accent {
+  color: var(--primary);
+}
+
+/* Accent sur liens */
+
+/* Liens du header : bleu foncé pour contraste sur fond blanc */
+.nav-link {
+  color: var(--secondary) !important;
+  transition: color 0.2s;
+}
+.nav-link:hover {
+  color: var(--primary) !important;
+}
+
+/* Liens globaux : vert par défaut */
+a {
+  color: var(--primary);
+  transition: color 0.2s;
+}
+a:hover {
+  color: var(--secondary);
 }

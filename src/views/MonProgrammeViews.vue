@@ -3,18 +3,20 @@
     <h1 class="text-2xl font-bold mb-4">Mon programme</h1>
     <!-- Progression du coureur -->
     <section class="w-full max-w-md mb-6">
-      <div class="bg-white/60 rounded-xl shadow-lg p-4 mb-4">
-        <h2 class="text-lg font-semibold mb-2">Progression</h2>
+      <div class="bg-white rounded-xl shadow-lg p-4 mb-4">
+        <h2 class="text-lg font-semibold mb-2 text-[color:var(--secondary)]">Progression</h2>
         <!-- À remplacer par la vraie progression -->
         <p>Vous êtes à l'étape X de la semaine Y, saison Z.</p>
       </div>
-      <div class="bg-white/60 rounded-xl shadow-lg p-4 mb-4">
-        <h2 class="text-lg font-semibold mb-2">Plan d'entraînement</h2>
-        <!-- À remplacer par le plan dynamique -->
-        <ul>
-          <li>Saison 1 > Semaine 1 > Étape 1 > Exercice 1</li>
-          <li>...</li>
-        </ul>
+      <div class="bg-white rounded-xl shadow-lg p-4 mb-4">
+        <h2 class="text-lg font-semibold mb-2 text-[color:var(--secondary)]">
+          Plan d'entraînement
+        </h2>
+        <TrainingPlan
+          :plans="trainingStore.plans"
+          :loading="trainingStore.loading"
+          :error="trainingStore.error"
+        />
       </div>
     </section>
     <!-- Actions principales -->
@@ -33,10 +35,15 @@
 </template>
 
 <script setup>
-// Ici, importer les stores Pinia et les composables nécessaires
-// import { useUserStore } from '@/stores/user'
-// import { useProgrammeStore } from '@/stores/programme'
-// import { useSupabaseAuth } from '@/composables/useSupabaseAuth'
+import { onMounted } from 'vue'
+import { useTrainingStore } from '../stores/training'
+import TrainingPlan from '../components/TrainingPlan.vue'
+
+const trainingStore = useTrainingStore()
+
+onMounted(() => {
+  trainingStore.fetchPlans()
+})
 
 function lancerSession() {
   // Logique pour lancer la prochaine session
