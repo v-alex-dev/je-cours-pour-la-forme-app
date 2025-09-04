@@ -43,7 +43,7 @@ async function handleLogin() {
   try {
     await userStore.login({ email: email.value, password: password.value })
     if (!userStore.error) {
-      router.push('/dashboard')
+      router.push('/mon-programme')
     } else {
       error.value = userStore.error
     }
