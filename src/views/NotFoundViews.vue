@@ -4,7 +4,7 @@
       <img src="/images/logo-192-192.png" alt="Logo" class="w-20 h-20 mb-4" />
       <h1 class="text-4xl font-bold text-gray-800 mb-2">404</h1>
       <p class="text-lg text-gray-600 mb-6">Oups ! Cette page n'existe pas.</p>
-      <router-link to="/dashboard">
+      <router-link to="/">
         <button
           class="px-6 py-2 rounded-lg bg-white/60 hover:bg-white/80 text-blue-600 font-semibold shadow transition-all flex items-center gap-2"
         >
