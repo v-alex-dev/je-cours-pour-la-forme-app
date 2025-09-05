@@ -1,3 +1,17 @@
+<script setup>
+import { ref } from 'vue'
+import { useUserStore } from '../stores/user'
+import SpinnerComponent from '../components/SpinnerComponent.vue'
+
+const userStore = useUserStore()
+const isLoading = ref(false)
+
+const handleLogout = async () => {
+  isLoading.value = true
+  await userStore.logout()
+  isLoading.value = false
+}
+</script>
 <template>
   <div class="min-h-screen flex flex-col items-center justify-center bg-[color:var(--secondary)]">
     <div class="card-glass w-full max-w-md p-8 flex flex-col items-center">
@@ -7,17 +21,30 @@
         Suis ton programme, progresse, exporte tes données !
       </p>
       <div class="flex gap-3 w-full mb-4">
-        <router-link to="/login" class="flex-1">
-          <button class="btn-primary w-full">Se connecter</button>
-        </router-link>
-        <router-link to="/register" class="flex-1">
+        <template v-if="!userStore.isAuthenticated">
+          <router-link to="/login" class="flex-1">
+            <button class="btn-primary w-full">Se connecter</button>
+          </router-link>
+          <router-link to="/register" class="flex-1">
+            <button
+              class="btn-primary w-full"
+              style="background-color: var(--accent); color: var(--primary)"
+            >
+              S'inscrire
+            </button>
+          </router-link>
+        </template>
+        <template v-else>
           <button
-            class="btn-primary w-full"
-            style="background-color: var(--accent); color: var(--primary)"
+            class="btn-primary w-full flex items-center justify-center gap-2"
+            :disabled="isLoading"
+            @click="handleLogout"
           >
-            S'inscrire
+            <SpinnerComponent :loading="isLoading" />
+            <span v-if="!isLoading">Se déconnecter</span>
+            <span v-else>Déconnexion...</span>
           </button>
-        </router-link>
+        </template>
       </div>
       <ul class="text-sm text-[color:var(--secondary)] mb-2 list-disc pl-5 text-left w-full">
         <li>Suivi du programme d’entraînement</li>

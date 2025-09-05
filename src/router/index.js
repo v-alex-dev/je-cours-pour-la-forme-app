@@ -18,4 +18,15 @@ const router = createRouter({
   ],
 })
 
+// Navigation guard pour protéger /mon-programme
+import { useUserStore } from '../stores/user'
+router.beforeEach((to, from, next) => {
+  const userStore = useUserStore()
+  if (to.path === '/mon-programme' && !userStore.isAuthenticated) {
+    next('/login')
+  } else {
+    next()
+  }
+})
+
 export default router
