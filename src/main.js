@@ -9,4 +9,8 @@ const app = createApp(App)
 app.use(createPinia())
 app.use(router)
 
+import { useUserStore } from './stores/user'
+const userStore = useUserStore()
+userStore.restoreFromLocalStorage()
+
 app.mount('#app')

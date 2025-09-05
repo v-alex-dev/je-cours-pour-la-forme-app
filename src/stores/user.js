@@ -49,5 +49,15 @@ export const useUserStore = defineStore('user', {
       this.user = null
       this.session = null
     },
+
+    // Restaurer userId/token depuis le localStorage
+    restoreFromLocalStorage() {
+      const { getLocalUser } = useSupabaseAuth()
+      const { userId, token } = getLocalUser()
+      if (userId && token) {
+        this.user = { id: userId }
+        this.session = { access_token: token }
+      }
+    },
   },
 })
