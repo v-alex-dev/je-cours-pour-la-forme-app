@@ -52,9 +52,10 @@
       </template>
     </div>
     <div v-if="error" class="text-red-500 mt-2">{{ error }}</div>
+    <button @click="startSession" class="btn-glass">Démarrer la session</button>
   </div>
 </template>
-// ...existing code...
+
 <style scoped>
 /* Glassmorphism card */
 .glass-card {
@@ -65,7 +66,8 @@
 }
 </style>
 <script setup>
-// ...existing code...
+import { useRouter } from 'vue-router'
+const router = useRouter()
 
 // Couleur du texte selon le fond du badge
 function getTextColorClass(nom) {
@@ -104,5 +106,9 @@ function getColorClass(nom) {
   if (nom.includes('échauffement') || nom.includes('echauffement'))
     return 'bg-yellow-500 text-black'
   return 'bg-gray-400'
+}
+
+function startSession() {
+  router.push('/session-progression')
 }
 </script>

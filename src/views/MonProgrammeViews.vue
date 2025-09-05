@@ -38,9 +38,11 @@ import { useTrainingStore } from '../stores/training'
 import { useUserStore } from '../stores/user'
 import TrainingPlan from '../components/TrainingPlan.vue'
 import UserProgression from '../components/UserProgression.vue'
+import { useRouter } from 'vue-router'
 
 const trainingStore = useTrainingStore()
 const userStore = useUserStore()
+const router = useRouter()
 const userId = computed(() => userStore.user?.id)
 console.log(userId)
 
@@ -55,7 +57,7 @@ onMounted(() => {
 })
 
 function lancerSession() {
-  // Logique pour lancer la prochaine session
+  router.push('/session-progression')
 }
 
 function reinitialiserProgramme() {

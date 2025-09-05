@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Register from '../views/RegisterViews.vue'
 import Login from '../views/LoginViews.vue'
 import MonProgramme from '../views/MonProgrammeViews.vue'
+import SessionProgressionViews from '../views/SessionProgressionViews.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -10,6 +11,11 @@ const router = createRouter({
     { path: '/register', name: 'Register', component: Register },
     { path: '/login', name: 'Login', component: Login },
     { path: '/mon-programme', name: 'MonProgramme', component: MonProgramme },
+    {
+      path: '/session-progression',
+      name: 'SessionProgression',
+      component: SessionProgressionViews,
+    },
     {
       path: '/:catchAll(.*)',
       name: 'NotFound',

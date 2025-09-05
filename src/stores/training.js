@@ -12,6 +12,7 @@ export const useTrainingStore = defineStore('training', {
     },
     progressionLoading: false,
     progressionError: null,
+    sessionProgression: [],
   }),
   actions: {
     async fetchPlans() {
@@ -42,6 +43,15 @@ export const useTrainingStore = defineStore('training', {
       } finally {
         this.progressionLoading = false
       }
+    },
+    async fetchSessionProgression() {
+      const { getSessionProgression } = useTrainingApi()
+      const res = await getSessionProgression()
+      this.sessionProgression = res
+    },
+    async validateSessionProgression(userId) {
+      const { validateSessionProgression } = useTrainingApi()
+      await validateSessionProgression(userId)
     },
   },
 
