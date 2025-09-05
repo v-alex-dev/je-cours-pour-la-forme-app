@@ -39,16 +39,15 @@ export function useTrainingApi() {
     return { completed_steps, total_steps }
   }
 
-  async function getSessionProgression(userId) {
-    // Récupère les exercices liés à la progression en cours pour l'utilisateur
-    const { data, error } = await supabase
-      .from('progression')
-      .select('exercices:exercice_id(id, nom, description, duree)')
-      .eq('user_id', userId)
-      .eq('status', 'in_progress')
-    if (error) throw error
-    // On retourne le tableau d'exercices
-    return data.map((item) => item.exercices)
+  async function getSessionProgression() {
+    // Remplacer par l'appel API Supabase pour récupérer la progression de l'utilisateur courant avec le statut 'in_progress'
+    // Exemple :
+    // const { data } = await supabase.from('progression').select('exercices:exercice_id(*)').eq('user_id', userId).eq('status', 'in_progress')
+    // return data.map(item => item.exercices)
+    return [
+      { nom: 'Cours', description: 'Cours 10 min', duree: 10 },
+      { nom: 'Trottes', description: 'Trottes 5 min', duree: 10 },
+    ]
   }
   async function validateSessionProgression(userId) {
     // 1. Mettre à jour la progression du jour en 'finished'
