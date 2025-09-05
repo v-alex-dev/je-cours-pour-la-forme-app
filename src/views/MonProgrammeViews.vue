@@ -5,7 +5,7 @@
       <section class="w-full mb-4">
         <div class="card-glass mb-4 p-4">
           <h2 class="title-accent text-lg font-semibold mb-2">Progression</h2>
-          <p>Vous êtes à l'étape X de la semaine Y, saison Z.</p>
+          <user-progression></user-progression>
         </div>
         <div class="card-glass mb-4 p-4">
           <h2 class="title-accent text-lg font-semibold mb-2">Plan d'entraînement</h2>
@@ -33,11 +33,22 @@
 </template>
 
 <script setup>
-import { onMounted } from 'vue'
+import { onMounted, computed } from 'vue'
 import { useTrainingStore } from '../stores/training'
+import { useUserStore } from '../stores/user'
 import TrainingPlan from '../components/TrainingPlan.vue'
+import UserProgression from '../components/UserProgression.vue'
 
 const trainingStore = useTrainingStore()
+const userStore = useUserStore()
+const userId = computed(() => userStore.user?.id)
+console.log(userId)
+
+onMounted(() => {
+  if (userId.value) {
+    trainingStore.fetchProgression(userId.value)
+  }
+})
 
 onMounted(() => {
   trainingStore.fetchPlans()

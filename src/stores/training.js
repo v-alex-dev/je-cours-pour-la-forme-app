@@ -6,6 +6,12 @@ export const useTrainingStore = defineStore('training', {
     plans: [],
     loading: false,
     error: null,
+    progression: {
+      completed_steps: 0,
+      total_steps: 0,
+    },
+    progressionLoading: false,
+    progressionError: null,
   }),
   actions: {
     async fetchPlans() {
@@ -13,15 +19,37 @@ export const useTrainingStore = defineStore('training', {
       this.error = null
       try {
         const data = await useTrainingApi().getPlans()
-        console.log('[TrainingStore] Data reçue:', data)
         this.plans = data
       } catch (e) {
-        console.error('[TrainingStore] Erreur:', e)
         this.error = e.message
       } finally {
         this.loading = false
-        console.log('[TrainingStore] Loading terminé')
       }
+    },
+
+    async fetchProgression(userId) {
+      this.progressionLoading = true
+      this.progressionError = null
+      try {
+        const data = await useTrainingApi().getProgression(userId)
+        console.log('[fetchProgression] Data:', data)
+        this.progression = {
+          completed_steps: data.completed_steps || 0,
+          total_steps: data.total_steps || 0,
+        }
+      } catch (e) {
+        this.progressionError = e.message
+      } finally {
+        this.progressionLoading = false
+      }
+    },
+  },
+
+  getters: {
+    progressionPercent(state) {
+      const { completed_steps, total_steps } = state.progression
+      if (!total_steps || total_steps === 0) return 0
+      return Math.round((completed_steps / total_steps) * 100)
     },
   },
 })

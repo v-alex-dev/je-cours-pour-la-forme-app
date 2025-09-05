@@ -24,5 +24,20 @@ export function useTrainingApi() {
     if (error) throw error
     return data
   }
-  return { getPlans }
+
+  // Nouvelle méthode indépendante pour la progression
+  async function getProgression(userId) {
+    const { data, error } = await supabase
+      .from('progression')
+      .select('status')
+      .eq('user_id', userId)
+    if (error) throw error
+    const total_steps = data.length
+    const completed_steps = data.filter(
+      (row) => row.status === 'completed' || row.status === 'in_progress',
+    ).length
+    return { completed_steps, total_steps }
+  }
+
+  return { getPlans, getProgression }
 }
