@@ -54,6 +54,19 @@ const handleLogout = async () => {
       <div class="mt-2 text-xs text-[color:var(--primary)] text-center">
         Commence dès aujourd’hui, progresse à ton rythme !
       </div>
+      <router-link to="/mon-programme" class="w-full mt-6">
+        <button
+          class="w-full btn-primary glassmorphism py-3 rounded-xl text-lg font-semibold shadow-md"
+          style="
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(8px);
+            color: var(--secondary);
+            border: 1px solid var(--accent);
+          "
+        >
+          Voir mon programme
+        </button>
+      </router-link>
     </div>
   </div>
 </template>
